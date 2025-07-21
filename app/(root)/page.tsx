@@ -1,10 +1,7 @@
-import SignIn from "@/components/sign-in";
-import { SignOut } from "@/components/sign-out";
-
 export default function Home() {
   return (
     <div>
-      <h1 className="text-2xl text-red-500">
+      <h1 className="heading">
         Hello world!
       </h1>
     </div>
