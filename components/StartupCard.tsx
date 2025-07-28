@@ -3,8 +3,11 @@ import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { Author, Startup } from "@/sanity/types";
 
-export default function StartupCard({ post }: { post: any }) {
+export type StartupCardType = Omit<Startup, 'author'> & { author?: Author }
+
+export default function StartupCard({ post }: { post: StartupCardType }) {
 
     return (
         <li className="startup-card group">
@@ -19,7 +22,7 @@ export default function StartupCard({ post }: { post: any }) {
             </div>
             <div className="flex-between mt-5 gap-5">
                 <div className="flex-1">
-                    <Link href={`/user/${post.author?._id}`}>
+                    <Link href={`/user/${post.author?.id}`}>
                         <p className="text-16-medium line-clamp-1">
                             {post.author?.name}
                         </p>
@@ -30,7 +33,7 @@ export default function StartupCard({ post }: { post: any }) {
                         </h3>
                     </Link>
                 </div>
-                <Link href={`/user/${post.author._id}`}>
+                <Link href={`/user/${post.author?.id}`}>
                     <Image src={post.image} alt="placeholder" width={48} height={48} className="rounded-full" />
                 </Link>
             </div>
@@ -41,7 +44,7 @@ export default function StartupCard({ post }: { post: any }) {
                 <Image src={post.image} alt="placeholder" className="startup-card_img" width={48} height={48} />
             </Link>
             <div className="flex-between gap-3 mt-5">
-                <Link href={`/?query=${post.category.toLowerCase()}`}>
+                <Link href={`/?query=${post.category?.toLowerCase()}`}>
                     <p className="text-16-medium">
                         {post.category}
                     </p>
