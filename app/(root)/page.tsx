@@ -7,7 +7,6 @@ import { STARTUP_QUERY } from "@/sanity/lib/queries";
 export default async function Home({ searchParams }: { searchParams: Promise<{ query?: string }> }) {
   const query = (await searchParams).query;
   const posts = await client.fetch(STARTUP_QUERY)
-  console.log(posts);
   // const posts = [
   //   {
   //     _createAt: new Date(),
