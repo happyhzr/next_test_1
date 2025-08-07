@@ -1,19 +1,53 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useActionState } from "react";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import MDEditor from '@uiw/react-md-editor';
 import { Button } from "./ui/button";
 import { Send } from "lucide-react";
+import { formSchema } from "@/lib/validation";
+import { z } from "zod";
+import { toast } from "sonner"
+import { useRouter } from "next/navigation";
 
 export default function StartupForm() {
     const [errors, setErrors] = useState<Record<string, string>>({})
     const [pitch, setPitch] = useState<string>('')
-    var isPending = false;
+    const router = useRouter();
+    const handleFormSubmit = async (prevState: any, formData: FormData) => {
+        try {
+            const formValues = {
+                title: formData.get('title') as string,
+                description: formData.get('description') as string,
+                category: formData.get('category') as string,
+                link: formData.get('link') as string,
+                pitch
+            }
+            await formSchema.parseAsync(formValues)
+            const result = { id: 1, status: 'SUCCESS' }
+            if (result.status === 'SUCCESS') {
+                toast.success('Your startup pitch has been submitted successfully!')
+                router.push(`/startup/${result.id}`)
+            }
+            return result
+        } catch (error) {
+            console.log('Error during form submission:', error);
+            toast.error('Please fix the errors in the form.')
+            if (error instanceof z.ZodError) {
+                const fieldErrors = error.flatten().fieldErrors
+                setErrors(fieldErrors as unknown as Record<string, string>)
+                return { ...prevState, error: 'Validation failed', status: 'ERROR' }
+            }
+            return { ...prevState, error: 'An unexpected error occurred', status: 'ERROR' }
+        } finally {
+
+        }
+    }
+    const [state, formAction, isPending] = useActionState(handleFormSubmit, { error: '', status: 'INITIAL' })
 
     return (
-        <form action={() => { }} className="startup-form">
+        <form action={formAction} className="startup-form">
             <div>
                 <label htmlFor="title" className="startup-form_label">Title</label>
                 <Input id="title" name="title" className="startup-form_input" required placeholder="Startup Title" />
