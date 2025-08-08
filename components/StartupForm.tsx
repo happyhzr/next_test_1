@@ -10,6 +10,7 @@ import { formSchema } from "@/lib/validation";
 import { z } from "zod";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
+import { createPitch } from "@/lib/actions";
 
 export default function StartupForm() {
     const [errors, setErrors] = useState<Record<string, string>>({})
@@ -25,10 +26,11 @@ export default function StartupForm() {
                 pitch
             }
             await formSchema.parseAsync(formValues)
-            const result = { id: 1, status: 'SUCCESS' }
+            const result = await createPitch(prevState, formData, pitch)
+            console.log('Form submission result:', result);
             if (result.status === 'SUCCESS') {
                 toast.success('Your startup pitch has been submitted successfully!')
-                router.push(`/startup/${result.id}`)
+                router.push(`/startup/${result._id}`)
             }
             return result
         } catch (error) {

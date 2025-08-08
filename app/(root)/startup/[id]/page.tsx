@@ -30,7 +30,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
                 <p className="sub_heading !max-w-5xl">{post.description}</p>
             </section>
             <section className="section_container">
-                <img src={post.image} alt="" className="w-full h-auto rounded-xl" />
+                <img src={post.image} alt="thumbnail" className="w-full h-auto rounded-xl" />
                 <div className="space-y-5 mt-10 max-w-4xl mx-auto">
                     <div className="flex-between gap-5">
                         <Link href={`/user/${post.author?._id}`} className="flex gap-2 items-center mb-3">

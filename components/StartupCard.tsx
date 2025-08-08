@@ -34,14 +34,14 @@ export default function StartupCard({ post }: { post: StartupCardType }) {
                     </Link>
                 </div>
                 <Link href={`/user/${post.author?.id}`}>
-                    <Image src={post.image} alt="placeholder" width={48} height={48} className="rounded-full" />
+                    <Image src={post.author?.image!} alt={post.author?.name!} width={48} height={48} className="rounded-full" />
                 </Link>
             </div>
             <Link href={`/startup/${post._id}`}>
                 <p className="startup-card_desc">
                     {post.description}
                 </p>
-                <Image src={post.image} alt="placeholder" className="startup-card_img" width={48} height={48} />
+                <img src={post.image} alt="placeholder" className="startup-card_img" />
             </Link>
             <div className="flex-between gap-3 mt-5">
                 <Link href={`/?query=${post.category?.toLowerCase()}`}>
