@@ -9,7 +9,6 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ q
   const params = { search: query || null }
   const { data: posts } = await sanityFetch({ query: STARTUP_QUERY, params })
   const session = await auth()
-  console.log(session?.id)
 
   return (
     <div>

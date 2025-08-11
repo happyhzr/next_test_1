@@ -1,9 +1,10 @@
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { EyeIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "./ui/button";
 import { Author, Startup } from "@/sanity/types";
+import { Skeleton } from "./ui/skeleton";
 
 export type StartupCardType = Omit<Startup, 'author'> & { author?: Author }
 
@@ -22,7 +23,7 @@ export default function StartupCard({ post }: { post: StartupCardType }) {
             </div>
             <div className="flex-between mt-5 gap-5">
                 <div className="flex-1">
-                    <Link href={`/user/${post.author?.id}`}>
+                    <Link href={`/user/${post.author?._id}`}>
                         <p className="text-16-medium line-clamp-1">
                             {post.author?.name}
                         </p>
@@ -33,7 +34,7 @@ export default function StartupCard({ post }: { post: StartupCardType }) {
                         </h3>
                     </Link>
                 </div>
-                <Link href={`/user/${post.author?.id}`}>
+                <Link href={`/user/${post.author?._id}`}>
                     <Image src={post.author?.image!} alt={post.author?.name!} width={48} height={48} className="rounded-full" />
                 </Link>
             </div>
@@ -57,4 +58,20 @@ export default function StartupCard({ post }: { post: StartupCardType }) {
             </div>
         </li >
     );
+}
+
+export function StartupCardSkeleton() {
+    const a: number[] = [0, 1, 2, 3, 4]
+
+    return (
+        <>
+            {
+                a.forEach((_, i: number) => (
+                    <li key={cn('skeleton', i)}>
+                        <Skeleton className="startup-card_skeleton" />
+                    </li>
+                ))
+            }
+        </>
+    )
 }
