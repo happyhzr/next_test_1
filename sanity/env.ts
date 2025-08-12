@@ -13,6 +13,8 @@ export const projectId = assertValue(
 
 export const token = process.env.SANITY_WRITE_TOKEN
 
+export const timeout = Number(process.env.SANITY_TIMEOUT) || 30000
+
 function assertValue<T>(v: T | undefined, errorMessage: string): T {
   if (v === undefined) {
     throw new Error(errorMessage)

@@ -2,7 +2,7 @@ import 'server-only'
 
 import { createClient } from 'next-sanity'
 
-import { apiVersion, dataset, projectId, token } from '../env'
+import { apiVersion, dataset, projectId, timeout, token } from '../env'
 
 export const writeClient = createClient({
     projectId,
@@ -10,6 +10,7 @@ export const writeClient = createClient({
     apiVersion,
     useCdn: true,
     token,
+    timeout: timeout
 })
 
 if (!writeClient.config().token) {
